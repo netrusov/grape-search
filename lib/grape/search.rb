@@ -34,13 +34,12 @@ module Grape
     # @param params [Hash]
     def initialize(params)
       @params = params.symbolize_keys
+      @scope = default_scope
     end
 
     # Returns filtered scope
     def result
       @result ||= begin
-        @scope = default_scope
-
         @params.each do |key, value|
           next unless registry.key?(key)
 
