@@ -6,18 +6,15 @@ module Grape
   module Search
     module Extensions
       module Parameters
-        extend ActiveSupport::Concern
-
         # @param klass [Grape::Search]
-        # @param options [Hash]
-        # @option options :except [Symbol, Array<Symbol>]
-        # @option options :only [Symbol, Array<Symbol>]
+        # @param except [Symbol, Array<Symbol>]
+        # @param only [Symbol, Array<Symbol>]
         # @return [void]
-        def search(klass, **options, &block)
+        def search(klass, except: nil, only: nil, &block)
           registry = klass.registry
           entries = registry.keys
-          entries -= Array(options[:except]) if options.key?(:except)
-          entries &= Array(options[:only]) if options.key?(:only)
+          entries -= Array(except) if except
+          entries &= Array(only) if only
           registry = registry.slice(*entries)
 
           Grape::Search::DSL.new(registry).tap do |context|
