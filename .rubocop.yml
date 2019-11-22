@@ -1,0 +1,10 @@
+inherit_from: .rubocop_todo.yml
+
+Documentation:
+  Enabled: false
+
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
