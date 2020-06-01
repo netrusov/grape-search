@@ -33,7 +33,7 @@ module Grape
 
     # @param params [Hash]
     def initialize(params)
-      @params = params.symbolize_keys
+      @params = params&.symbolize_keys || {}
       @scope = default_scope
     end
 
