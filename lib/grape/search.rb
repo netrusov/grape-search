@@ -11,14 +11,17 @@ module Grape
   module Search
     extend ActiveSupport::Concern
 
+    Boolean = Grape::API::Boolean
+
     included do
-      class_attribute :default_scope
+      class_attribute :registry, instance_writer: false, default: {}
     end
 
     class_methods do
-      # @api private
-      def registry
-        @registry ||= {}
+      # @yield Default scope
+      # @return [Proc]
+      def default_scope(&block)
+        @default_scope ||= block
       end
 
       # @param name [Symbol]
@@ -29,12 +32,12 @@ module Grape
     end
 
     attr_reader :scope
-    delegate :registry, to: :class
+    delegate :default_scope, to: :class
 
     # @param params [Hash]
     def initialize(params)
       @params = params&.symbolize_keys || {}
-      @scope = default_scope
+      @scope = default_scope.call
     end
 
     # Returns filtered scope
