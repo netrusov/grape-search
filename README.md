@@ -19,7 +19,7 @@ module Searches
   class Users
     include Grape::Search
 
-    self.default_scope = User.all
+    default_scope { User.all }
 
     search :id, type: Integer do |value|
       scope.where(id: value)
